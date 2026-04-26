@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/excheckviewlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,7 +10,8 @@
     android:elevation="8dp"
     android:orientation="vertical"
     android:padding="@dimen/popup_padding"
-    android:visibility="visible">
+    android:visibility="visible"
+    tools:ignore="SpUsage">
 
     <LinearLayout
         android:id="@+id/excheckviewpanel"
@@ -20,7 +22,7 @@
         <LinearLayout
             android:id="@+id/excheckview_head"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
@@ -105,20 +107,20 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_height="match_parent"
             android:layout_marginTop="2dp"
+            android:layout_marginBottom="4dp"
             android:layout_weight="1.0"
             android:background="@android:color/darker_gray"
-            android:paddingBottom="1dp"
             android:paddingLeft="5dp"
-            android:paddingRight="5dp"
             android:paddingTop="0dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="1dp"
             android:scaleType="fitXY"
             android:src="@android:drawable/divider_horizontal_bright" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1.0"
             android:orientation="vertical">
@@ -251,6 +253,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1.0"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -465,7 +468,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
-                            android:layout_marginLeft="10dp"
                             android:text="00:00:00"
                             android:textColor="@color/white"
                             android:textSize="@dimen/popup_text_small" />
@@ -477,10 +479,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_below="@id/excheck_detail_head"
-                        android:layout_gravity="left|clip_vertical"
+                        android:layout_gravity="start|clip_vertical"
                         android:layout_marginTop="1dp"
                         android:layout_marginBottom="1dp"
-                        android:layout_weight="0"
                         android:background="@color/grey"
                         android:paddingLeft="5dp"
                         android:paddingTop="0dp"
@@ -511,7 +512,6 @@
                                     android:layout_width="@dimen/excheckview_label_width"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="4dp"
-                                    android:layout_marginRight="4dp"
                                     android:text="@string/excheckview_flag_info"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
@@ -528,7 +528,6 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="4dp"
-                                        android:layout_marginRight="4dp"
                                         android:layout_weight="1"
                                         android:textColor="@color/white"
                                         android:textSize="@dimen/popup_text_normal" />
@@ -548,6 +547,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:baselineAligned="false"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
@@ -564,7 +564,6 @@
                                         android:layout_width="@dimen/excheckview_label_width"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="4dp"
-                                        android:layout_marginRight="4dp"
                                         android:text="@string/excheckview_total_info"
                                         android:textAlignment="center"
                                         android:textColor="@color/white"
@@ -587,7 +586,6 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginEnd="4dp"
-                                                android:layout_marginRight="4dp"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/popup_text_normal" />
 
@@ -596,7 +594,6 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginEnd="4dp"
-                                                android:layout_marginRight="4dp"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/popup_text_normal" />
                                         </LinearLayout>
@@ -647,7 +644,6 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginEnd="4dp"
-                                                android:layout_marginRight="4dp"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/popup_text_normal" />
 
@@ -683,7 +679,6 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginEnd="4dp"
-                                                android:layout_marginRight="4dp"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/popup_text_normal" />
 
@@ -702,7 +697,6 @@
                                             android:layout_width="@dimen/excheckview_label_width"
                                             android:layout_height="wrap_content"
                                             android:layout_marginEnd="4dp"
-                                            android:layout_marginRight="4dp"
                                             android:text="@string/excheckview_fp_info"
                                             android:textAlignment="center"
                                             android:textColor="@color/white"
@@ -719,7 +713,6 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginEnd="4dp"
-                                                android:layout_marginRight="4dp"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/popup_text_normal" />
 
@@ -738,7 +731,6 @@
                                             android:layout_width="@dimen/excheckview_label_width"
                                             android:layout_height="wrap_content"
                                             android:layout_marginEnd="4dp"
-                                            android:layout_marginRight="4dp"
                                             android:text="@string/excheckview_los_info"
                                             android:textAlignment="center"
                                             android:textColor="@color/white"
@@ -755,7 +747,6 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_marginEnd="4dp"
-                                                android:layout_marginRight="4dp"
                                                 android:textColor="@color/white"
                                                 android:textSize="@dimen/popup_text_normal" />
 
