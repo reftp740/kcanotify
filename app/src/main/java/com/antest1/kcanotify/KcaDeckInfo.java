@@ -233,21 +233,30 @@ public class KcaDeckInfo {
         }
     }
 
-    private double calcReinforcedAAC(int type, int aac, int reinforce) {
-        switch (type) {
-            case T2_FIGHTER:
-            case T2_SEA_FIGHTER:
-            case T2_ITCP_FIGHTER:
-                return aac + 0.2 * reinforce;
-            case T2_BOMBER:
-            case T2_JET_BOMBER:
-                if (aac > 0) {
-                    return aac + 0.25 * reinforce;
-                } else {
-                    return 0;
-                }
+    private double calcReinforcedAAC(int id, int type, int aac, int reinforce) {
+        // https://wikiwiki.jp/kancolle/%E6%94%B9%E4%BF%AE%E5%B7%A5%E5%BB%A0#ic9d577c
+
+        double bonus = 0.0;
+
+        // ★×0.25：爆戦(零戦62型(爆戦／岩井隊)・零式艦戦62型/63型(爆戦)・零式艦戦64型(複座KMX搭載機))
+        if (id == 60 || id == 154 || id == 219 || id == 447) {
+            bonus = 0.25 * reinforce;
         }
-        return aac;
+        // ★×0.3：零式艦戦64型(制空戦闘機仕様)・零式艦戦64型(熟練爆戦)
+        else if (id == 486 || id == 487) {
+            bonus = 0.3 * reinforce;
+        }
+        // ★×0.2：艦戦、水戦、陸戦
+        else if (type == T2_FIGHTER || type == T2_SEA_FIGHTER || type == T2_ITCP_FIGHTER) {
+            bonus = 0.2 * reinforce;
+        }
+        // √★×0.5：陸攻と大型陸上機
+        else if (type == T2_LBA_AIRCRAFT || type == T2_LARGE_LAND_BOMBER) {
+            bonus = 0.5 * Math.sqrt(reinforce);
+        }
+
+        if (aac > 0) return aac + bonus;
+        else return aac;
     }
 
     private double[] calcSlotAACFromMastery(int type, int mastery, int mode) {
@@ -314,6 +323,7 @@ public class KcaDeckInfo {
                             JsonObject itemData = getUserItemStatusById(item_id, "level,alv", "id,name,type,tyku");
                             if (itemData == null) continue;
 
+                            int itemId = itemData.get("id").getAsInt();
                             int itemLevel = itemData.get("level").getAsInt();
                             int itemMastery = 0;
                             if (itemData.has("alv")) {
@@ -321,7 +331,7 @@ public class KcaDeckInfo {
                             }
                             int itemType = itemData.get("type").getAsJsonArray().get(2).getAsInt();
                             int itemAAC = itemData.get("tyku").getAsInt();
-                            double baseAAC = calcBasicAAC(itemType, calcReinforcedAAC(itemType, itemAAC, itemLevel), slot);
+                            double baseAAC = calcBasicAAC(itemType, calcReinforcedAAC(itemId, itemType, itemAAC, itemLevel), slot);
 
                             double[] masteryAAC = calcSlotAACFromMastery(itemType, itemMastery, 0);
 
@@ -894,12 +904,13 @@ public class KcaDeckInfo {
                     itemMastery = itemData.get("alv").getAsInt();
                 }
                 double profiencyBonus = calcSlotAACFromMastery(itemType, itemMastery, 0)[0];
-
                 int itemAAC = itemData.get("tyku").getAsInt();
                 int itemITC = itemType == T2_ITCP_FIGHTER ? itemData.get("houk").getAsInt() : 0;
+                double itemReinforcedAAC = calcReinforcedAAC(itemId, itemType, itemAAC, itemLevel);
                 if (itemId == 311) reconBonus = Math.max(reconBonus, 1.15);
                 if (itemId == 312) reconBonus = Math.max(reconBonus, 1.18);
-                int realAAC = (int) Math.floor(Math.sqrt(count) * (itemITC * 1.5 + calcReinforcedAAC(itemType, itemAAC, itemLevel)) + profiencyBonus);
+                int realAAC = (int) Math.floor(Math.sqrt(count) *
+                        (itemITC * 1.5 + itemReinforcedAAC) + profiencyBonus);
                 air_power += realAAC;
             }
             air_power = (int) Math.floor(air_power * reconBonus);
@@ -929,7 +940,9 @@ public class KcaDeckInfo {
                     itemAB = itemData.get("houm").getAsInt();
                 }
                 int itemSeek = itemData.get("saku").getAsInt();
-                int realAAC = (int) Math.floor(Math.sqrt(count) * (itemITC + itemAB * 2.0 + calcReinforcedAAC(itemType, itemAAC, itemLevel)) + profiencyBonus);
+                double itemReinforcedAAC = calcReinforcedAAC(itemId, itemType, itemAAC, itemLevel);
+                int realAAC = (int) Math.floor(Math.sqrt(count) *
+                        (itemITC + itemAB * 2.0 + itemReinforcedAAC) + profiencyBonus);
 
                 if (itemType == T2_SCOUT || itemType == T2_SCOUT_II) {
                     if(itemSeek >= 9) reconBonus = Math.max(reconBonus, 1.3);
